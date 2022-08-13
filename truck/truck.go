@@ -6,7 +6,7 @@ import (
 )
 
 func Routes(router *gin.RouterGroup, db *gorm.DB) {
-	truck := router.Group("/truck")
+	// truck := router.Group("/truck")
 
 	// truckRepo := NewRepository(db)
 
