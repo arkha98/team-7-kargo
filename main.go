@@ -4,16 +4,19 @@ import (
 	driver "kargo-tms/driver"
 	shipment "kargo-tms/shipment"
 	truck "kargo-tms/truck"
+	"log"
 
 	"github.com/gin-gonic/gin"
-
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func main() {
-	dsn := "host=172.20.0.2 user=kargo-tms password=qwerpoiu dbname=tms port=5432 sslmode=disable TimeZone=Asia/Jakarta"
+	dsn := "host=172.20.0.2 user=kargo-tms password=qwerpoiu dbname=kargo-tms port=5432 sslmode=disable TimeZone=Asia/Jakarta"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	db.AutoMigrate(&driver.Driver{})
 	db.AutoMigrate(&shipment.Shipment{})
