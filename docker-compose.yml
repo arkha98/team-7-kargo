@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+  db:
+    container_name: pg_container
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: kargo-tms
+      POSTGRES_PASSWORD: qwerpoiu
+      # POSTGRES_DB: test_db
+    ports:
+      - "5432:5432"
+    networks:
+      team7:
+        ipv4_address: 172.20.0.2
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: team7@kargo.com
+      PGADMIN_DEFAULT_PASSWORD: qwerpoiu
+    ports:
+      - "5050:80"
+    networks:
+      team7:
+        ipv4_address: 172.20.0.3
+
+networks:
+  team7:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+        - gateway: 172.20.0.1
