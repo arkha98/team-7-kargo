@@ -21,7 +21,7 @@ func main() {
 
 	router := gin.Default()
 
-	team7 := gin.Group("/")
+	team7 := router.Group("/")
 
 	driver.Routes(team7, db)
 	shipment.Routes(team7, db)
