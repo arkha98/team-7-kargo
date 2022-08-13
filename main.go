@@ -14,8 +14,8 @@ import (
 )
 
 func main() {
-	dsn := "host=172.20.0.2 user=kargo-tms password=qwerpoiu dbname=kargo-tms port=5432 sslmode=disable TimeZone=Asia/Jakarta"
-	// dsn := "host=localhost user=kargo-tms password=qwerpoiu dbname=kargo-tms port=5437 sslmode=disable TimeZone=Asia/Jakarta"
+	// dsn := "host=172.20.0.2 user=kargo-tms password=qwerpoiu dbname=kargo-tms port=5432 sslmode=disable TimeZone=Asia/Jakarta"
+	dsn := "host=localhost user=kargo-tms password=qwerpoiu dbname=kargo-tms port=5437 sslmode=disable TimeZone=Asia/Jakarta"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	driver "kargo-tms/driver"
+	"kargo-tms/lib"
 	truck "kargo-tms/truck"
 	"time"
 
@@ -27,7 +28,7 @@ func (c *ShipmentController) ShipmentAll(context *gin.Context) {
 	if result.Error != nil {
 		context.JSON(500, "testlagi")
 	}
-	context.JSON(200, shipments)
+	context.JSON(200, lib.CreateJSON(shipments))
 }
 
 func (c *ShipmentController) Create(context *gin.Context) {
@@ -45,7 +46,7 @@ func (c *ShipmentController) Create(context *gin.Context) {
 	if result.Error != nil {
 		context.JSON(500, "error")
 	}
-	context.JSON(200, params)
+	context.JSON(200, lib.CreateJSON(params))
 }
 
 type UpdateData struct {
@@ -106,6 +107,16 @@ func (c *ShipmentController) Update(context *gin.Context) {
 		shipment.DriverID = params.DriverID
 	}
 
+	if params.LoadingDate != nil {
+		updateShipment = true
+		shipment.LoadingDate = *params.LoadingDate
+	}
+
+	if params.Status != nil {
+		updateShipment = true
+		shipment.Status = *params.Status
+	}
+
 	if updateShipment {
 		result := c.Database.Save(&shipment)
 		if result.Error != nil {
@@ -113,7 +124,7 @@ func (c *ShipmentController) Update(context *gin.Context) {
 		}
 	}
 
-	context.JSON(200, params)
+	context.JSON(200, lib.CreateJSON(params))
 }
 
 type DeleteData struct {
@@ -139,5 +150,5 @@ func (c *ShipmentController) Delete(context *gin.Context) {
 		context.JSON(500, "error")
 	}
 
-	context.JSON(200, "ok")
+	context.JSON(200, lib.CreateJSON("ok"))
 }
