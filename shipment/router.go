@@ -6,9 +6,9 @@ import (
 )
 
 func Routes(router *gin.RouterGroup, db *gorm.DB) {
-	// shipment := router.Group("/shipment")
+	shipment := router.Group("/shipment")
 
-	// truckRepo := NewRepository(db)
+	controller := ShipmentController{Database: db}
 
-	// shipment.GET("/query-truck", truckAll)
+	shipment.GET("/", controller.ShipmentAll)
 }
