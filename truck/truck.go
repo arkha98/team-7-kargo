@@ -34,7 +34,11 @@ func truckAll(context *gin.Context) {
 func truckAdd(context *gin.Context) {
 	jsonData, err := ioutil.ReadAll(context.Request.Body)
 	if err != nil {
-		// Handle error
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"status": http.StatusInternalServerError,
+			"data":   err,
+		})
+		return
 	}
 
 	var params Truck
@@ -51,7 +55,11 @@ func truckAdd(context *gin.Context) {
 func truckUpdate(context *gin.Context) {
 	jsonData, err := ioutil.ReadAll(context.Request.Body)
 	if err != nil {
-		// Handle error
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"status": http.StatusInternalServerError,
+			"data":   err,
+		})
+		return
 	}
 
 	var params Truck
@@ -68,7 +76,11 @@ func truckUpdate(context *gin.Context) {
 func truckDelete(context *gin.Context) {
 	jsonData, err := ioutil.ReadAll(context.Request.Body)
 	if err != nil {
-		// Handle error
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"status": http.StatusInternalServerError,
+			"data":   err,
+		})
+		return
 	}
 
 	var params Truck
