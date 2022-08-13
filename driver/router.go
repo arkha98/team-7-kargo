@@ -11,5 +11,6 @@ func Routes(router *gin.RouterGroup, db *gorm.DB) {
 
 	driver.GET("/", controller.DriverAll)
 	driver.POST("/create", controller.CreateDriver)
+	driver.PUT("/update", controller.UpdateDriver)
 	driver.POST("/delete", controller.DeleteDriver)
 }
