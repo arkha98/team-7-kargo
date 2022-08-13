@@ -22,7 +22,7 @@ func (c *ShipmentController) ShipmentAll(context *gin.Context) {
 	}
 	fmt.Println(jsonData)
 	if result.Error != nil {
-		context.JSON(500, "test")
+		context.JSON(500, "testlagi")
 	}
 	context.JSON(200, shipments)
 }
