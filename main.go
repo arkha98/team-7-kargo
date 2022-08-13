@@ -27,7 +27,7 @@ func main() {
 
 	team7 := router.Group("/")
 
-	// driver.Routes(team7, db)
+	driver.Routes(team7, db)
 	shipment.Routes(team7, db)
 	truck.Routes(team7, db)
 
