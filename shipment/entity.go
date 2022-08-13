@@ -10,7 +10,7 @@ import (
 
 type Shipment struct {
 	gorm.Model
-	Id             int
+	ID             int
 	Origin         string
 	Destination    string
 	LoadingDate    time.Time
