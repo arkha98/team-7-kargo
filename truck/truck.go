@@ -23,9 +23,12 @@ func Routes(router *gin.RouterGroup, db *gorm.DB) {
 	truck.DELETE("/delete", truckDelete)
 }
 
-func truckAll(c *gin.Context) {
+func truckAll(context *gin.Context) {
 	result, _ := truckRepo.FindAll()
-	c.JSON(http.StatusOK, result)
+	context.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   result,
+	})
 }
 
 func truckAdd(context *gin.Context) {
@@ -39,7 +42,10 @@ func truckAdd(context *gin.Context) {
 
 	fmt.Println(params)
 	truckRepo.AddTruck(params)
-	context.JSON(200, params)
+	context.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   params,
+	})
 }
 
 func truckUpdate(context *gin.Context) {
@@ -53,7 +59,10 @@ func truckUpdate(context *gin.Context) {
 
 	fmt.Println(params)
 	truckRepo.UpdateTruck(params)
-	context.JSON(200, params)
+	context.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   params,
+	})
 }
 
 func truckDelete(context *gin.Context) {
@@ -67,5 +76,8 @@ func truckDelete(context *gin.Context) {
 
 	fmt.Println(params)
 	truckRepo.DeleteTruck(params)
-	context.JSON(200, params)
+	context.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   params,
+	})
 }
