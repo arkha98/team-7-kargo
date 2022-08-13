@@ -3,6 +3,7 @@ package driver
 import (
 	"encoding/json"
 	"io/ioutil"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -21,15 +22,40 @@ func (c *DriverController) DriverAll(context *gin.Context) {
 
 }
 
-func (c *DriverController) DriverCreate(driver Driver) (Driver, error) {
-	err := c.Database.Debug().Create(&driver).Error
-	return driver, err
+func (c *DriverController) DriverCreate(context *gin.Context) {
+	jsonData, err := ioutil.ReadAll(context.Request.Body)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"status": http.StatusOK,
+			"data":   "error",
+		})
+	}
+
+	var params Driver
+	err = json.Unmarshal(jsonData, &params)
+
+	result := c.Database.Create(&params)
+
+	if result.Error != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"status": http.StatusOK,
+			"data":   "error",
+		})
+	}
+
+	context.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   params,
+	})
 }
 
 func (c *DriverController) CreateDriver(context *gin.Context) {
 	jsonData, err := ioutil.ReadAll(context.Request.Body)
 	if err != nil {
-		context.JSON(500, "error")
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"status": http.StatusOK,
+			"data":   "error",
+		})
 	}
 
 	var params Driver
@@ -37,9 +63,15 @@ func (c *DriverController) CreateDriver(context *gin.Context) {
 	result := c.Database.Create(&params)
 
 	if result.Error != nil {
-		context.JSON(500, "error")
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"status": http.StatusOK,
+			"data":   "error",
+		})
 	}
-	context.JSON(200, params)
+	context.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   params,
+	})
 }
 
 func (c *DriverController) DeleteDriver(context *gin.Context) {
@@ -49,7 +81,10 @@ func (c *DriverController) DeleteDriver(context *gin.Context) {
 	jsonData, err := ioutil.ReadAll(context.Request.Body)
 	err = json.Unmarshal(jsonData, &params)
 	if err != nil {
-		context.JSON(500, "error")
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"status": http.StatusOK,
+			"data":   "error",
+		})
 	}
 	c.Database.Debug().Where("id = ?", params.ID).First(&driver)
 	c.Database.Debug().Delete(&driver)
@@ -68,7 +103,10 @@ func (c *DriverController) UpdateDriver(context *gin.Context) {
 
 	jsonData, err := ioutil.ReadAll(context.Request.Body)
 	if err != nil {
-		context.JSON(500, "error")
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"status": http.StatusOK,
+			"data":   "error",
+		})
 	}
 
 	var params UpdateData
@@ -79,7 +117,10 @@ func (c *DriverController) UpdateDriver(context *gin.Context) {
 
 	result := c.Database.First(&driver)
 	if result.Error != nil {
-		context.JSON(500, "error")
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"status": http.StatusOK,
+			"data":   "error",
+		})
 	}
 
 	updateDriver := false
@@ -112,9 +153,15 @@ func (c *DriverController) UpdateDriver(context *gin.Context) {
 	if updateDriver {
 		result := c.Database.Save(&driver)
 		if result.Error != nil {
-			context.JSON(500, "error")
+			context.JSON(http.StatusInternalServerError, gin.H{
+				"status": http.StatusOK,
+				"data":   "error",
+			})
 		}
 	}
 
-	context.JSON(200, params)
+	context.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   params,
+	})
 }

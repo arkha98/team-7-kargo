@@ -6,10 +6,10 @@ import (
 )
 
 type Driver struct {
-	gorm.Model
+	gorm.Model    `json:"-"`
 	ID            int    `json:"id"`
 	DriverName    string `json:"name" binding:"required"`
-	PhoneNumber   string `json:"made_in"`
+	PhoneNumber   string `json:"phone_number"`
 	IdCard        string `json:"id_card"`
 	DriverLicense string `json:"driver_license"`
 	Status        string `json:"status"`
