@@ -41,10 +41,15 @@ func (c *ShipmentController) Create(context *gin.Context) {
 	err = json.Unmarshal(jsonData, &params)
 
 	result := c.Database.Create(&params)
-
-	fmt.Println(params)
 	if result.Error != nil {
-		context.JSON(500, "error")
+		context.JSON(500, lib.CreateJSON("error"))
+	}
+
+	params.ShipmentNumber = fmt.Sprintf("DO-%d", params.ID)
+
+	result = c.Database.Save(&params)
+	if result.Error != nil {
+		context.JSON(500, lib.CreateJSON("error"))
 	}
 	context.JSON(200, lib.CreateJSON(params))
 }
