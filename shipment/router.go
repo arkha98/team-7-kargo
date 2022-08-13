@@ -11,4 +11,7 @@ func Routes(router *gin.RouterGroup, db *gorm.DB) {
 	controller := ShipmentController{Database: db}
 
 	shipment.GET("/", controller.ShipmentAll)
+	shipment.POST("/create", controller.Create)
+	shipment.PUT("/update", controller.ShipmentAll)
+	shipment.DELETE("/delete", controller.ShipmentAll)
 }

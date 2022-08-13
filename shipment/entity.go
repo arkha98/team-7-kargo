@@ -10,14 +10,14 @@ import (
 
 type Shipment struct {
 	gorm.Model
-	ID             int
-	Origin         string
-	Destination    string
-	LoadingDate    time.Time
-	Status         string
-	ShipmentNumber string
-	Truck          truck.Truck
-	TruckID        int
-	Driver         driver.Driver
-	DriverID       int
+	ID             int           `json:"id"`
+	Origin         string        `json:"origin"`
+	Destination    string        `json:"destination"`
+	LoadingDate    time.Time     `json:"loading_date"`
+	Status         string        `json:"status"`
+	ShipmentNumber string        `json:"shipment_number"`
+	Truck          truck.Truck   `json:"truck"`
+	TruckID        int           `json:"truck_id"`
+	Driver         driver.Driver `json:"driver"`
+	DriverID       int           `json:"driver_id"`
 }

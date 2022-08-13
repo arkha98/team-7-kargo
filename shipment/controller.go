@@ -1,6 +1,10 @@
 package shipment
 
 import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -10,9 +14,31 @@ type ShipmentController struct {
 }
 
 func (c *ShipmentController) ShipmentAll(context *gin.Context) {
-	// votePack, err := c.Database.
-	// if err != nil {
-	// 	context.String(404, "Votepack Not Found")
+	shipments := []Shipment{}
+	result := c.Database.Preload("Driver").Preload("Truck").Find(&shipments)
+	jsonData, err := ioutil.ReadAll(context.Request.Body)
+	if err != nil {
+		// Handle error
+	}
+	fmt.Println(jsonData)
+	if result.Error != nil {
+		context.JSON(500, "error")
+	}
+	context.JSON(200, shipments)
+}
+
+func (c *ShipmentController) Create(context *gin.Context) {
+	jsonData, err := ioutil.ReadAll(context.Request.Body)
+	if err != nil {
+		// Handle error
+	}
+
+	var params Shipment
+	err = json.Unmarshal(jsonData, &params)
+
+	fmt.Println(params)
+	// if result.Error != nil {
+	// 	context.JSON(500, "error")
 	// }
-	context.JSON(200, "votePack")
+	context.JSON(200, params)
 }
