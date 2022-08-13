@@ -36,7 +36,31 @@ func (c *ShipmentController) Create(context *gin.Context) {
 	var params Shipment
 	err = json.Unmarshal(jsonData, &params)
 
+	result := c.Database.Create(&params)
+
 	fmt.Println(params)
+	if result.Error != nil {
+		context.JSON(500, "error")
+	}
+	context.JSON(200, params)
+}
+
+func (c *ShipmentController) Update(context *gin.Context) {
+
+	// shipmentId := context.Param("id")
+
+	// shipment :=
+	// jsonData, err := ioutil.ReadAll(context.Request.Body)
+	// if err != nil {
+	// 	// Handle error
+	// }
+
+	// var params Shipment
+	// err = json.Unmarshal(jsonData, &params)
+
+	// result := c.Database.Create(&params)
+
+	// fmt.Println(params)
 	// if result.Error != nil {
 	// 	context.JSON(500, "error")
 	// }
