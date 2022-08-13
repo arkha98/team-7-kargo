@@ -9,7 +9,7 @@ import (
 )
 
 type Shipment struct {
-	gorm.Model
+	gorm.Model     `json:"-"`
 	ID             int            `json:"id"`
 	Origin         string         `json:"origin"`
 	Destination    string         `json:"destination"`
