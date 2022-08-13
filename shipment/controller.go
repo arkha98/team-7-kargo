@@ -64,5 +64,5 @@ func (c *ShipmentController) Update(context *gin.Context) {
 	// if result.Error != nil {
 	// 	context.JSON(500, "error")
 	// }
-	context.JSON(200, params)
+	context.JSON(200, "params")
 }
