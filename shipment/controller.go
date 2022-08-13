@@ -116,6 +116,10 @@ func (c *ShipmentController) Update(context *gin.Context) {
 	context.JSON(200, params)
 }
 
+type DeleteData struct {
+	ID int `json:"id"`
+}
+
 func (c *ShipmentController) Delete(context *gin.Context) {
 
 	jsonData, err := ioutil.ReadAll(context.Request.Body)
@@ -123,50 +127,17 @@ func (c *ShipmentController) Delete(context *gin.Context) {
 		// Handle error
 	}
 
-	var params UpdateData
+	var params DeleteData
 	err = json.Unmarshal(jsonData, &params)
-	shipment := Shipment{
-		ID: int(*params.ID),
-	}
 
-	result := c.Database.First(&shipment)
+	shipment := Shipment{
+		ID: int(params.ID),
+	}
+	c.Database.First(&shipment)
+	result := c.Database.Delete(&shipment)
 	if result.Error != nil {
 		context.JSON(500, "error")
 	}
 
-	updateShipment := false
-
-	if params.ShipmentNumber != nil {
-		updateShipment = true
-		shipment.ShipmentNumber = *params.ShipmentNumber
-	}
-
-	if params.Destination != nil {
-		updateShipment = true
-		shipment.Destination = *params.Destination
-	}
-
-	if params.Origin != nil {
-		updateShipment = true
-		shipment.Origin = *params.Origin
-	}
-
-	if params.TruckID != nil {
-		updateShipment = true
-		shipment.TruckID = params.TruckID
-	}
-
-	if params.DriverID != nil {
-		updateShipment = true
-		shipment.DriverID = params.DriverID
-	}
-
-	if updateShipment {
-		result := c.Database.Save(&shipment)
-		if result.Error != nil {
-			context.JSON(500, "error")
-		}
-	}
-
-	context.JSON(200, params)
+	context.JSON(200, "ok")
 }
